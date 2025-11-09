@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz da Biotecnologia — Desafie seus conhecimentos!</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #4caf50, #81c784);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ffeb3b;
+    }
+
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option {
+      background: #388e3c;
+      border: none;
+      color: #fff;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-align: left;
+    }
+
+    .option:hover {
+      background: #66bb6a;
+    }
+
+    #next-btn, #retry-btn {
+      background: #ffeb3b;
+      color: #000;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+      display: block;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    #next-btn:hover, #retry-btn:hover {
+      background: #fbc02d;
+    }
+
+    #result {
+      text-align: center;
+      font-size: 1.2em;
+    }
+
+    @media (max-width: 500px) {
+      .container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Quiz da Biotecnologia — Desafie seus conhecimentos!</h1>
+    <div id="quiz">
+      <div id="question-container">
+        <div id="question" class="question"></div>
+        <div id="options" class="options"></div>
+      </div>
+      <button id="next-btn">Próxima</button>
+    </div>
+
+    <div id="result-container" style="display:none;">
+      <div id="result"></div>
+      <button id="retry-btn">Tentar novamente</button>
+    </div>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "A biotecnologia é o uso de organismos vivos para:",
+        options: [
+          "Criar obras de arte",
+          "Produzir bens e serviços úteis",
+          "Estudar o clima",
+          "Fazer cálculos matemáticos"
+        ],
+        answer: 1
+      },
+      {
+        question: "O que são organismos transgênicos?",
+        options: [
+          "Organismos com DNA alterado por técnicas genéticas",
+          "Seres que mudam de cor",
+          "Plantas com mutações naturais",
+          "Animais híbridos"
+        ],
+        answer: 0
+      },
+      {
+        question: "Qual é o principal objetivo da engenharia genética?",
+        options: [
+          "Criar máquinas automatizadas",
+          "Modificar genes para obter características desejadas",
+          "Melhorar o solo agrícola",
+          "Aumentar o número de espécies"
+        ],
+        answer: 1
+      },
+      {
+        question: "A produção de insulina humana em bactérias é um exemplo de:",
+        options: [
+          "Terapia gênica",
+          "Biotecnologia moderna",
+          "Biotecnologia tradicional",
+          "Engenharia ambiental"
+        ],
+        answer: 1
+      },
+      {
+        question: "A fermentação é usada na produção de:",
+        options: [
+          "Vinagre e iogurte",
+          "Aço e vidro",
+          "Plásticos e borracha",
+          "Gasolina e diesel"
+        ],
+        answer: 0
+      },
+      {
+        question: "Qual é o combustível produzido a partir da cana-de-açúcar?",
+        options: [
+          "Etanol",
+          "Gasolina",
+          "Querosene",
+          "Diesel"
+        ],
+        answer: 0
+      },
+      {
+        question: "Vacinas são exemplos de aplicação da biotecnologia porque:",
+        options: [
+          "São feitas apenas com produtos químicos",
+          "Usam microrganismos ou partes deles para estimular imunidade",
+          "Têm apenas substâncias naturais",
+          "São feitas manualmente"
+        ],
+        answer: 1
+      },
+      {
+        question: "A terapia gênica busca:",
+        options: [
+          "Curar doenças alterando o DNA das células",
+          "Criar clones humanos",
+          "Melhorar o desempenho físico",
+          "Trocar órgãos geneticamente"
+        ],
+        answer: 0
+      },
+      {
+        question: "O uso de bactérias para tratar esgoto é um exemplo de:",
+        options: [
+          "Biotecnologia ambiental",
+          "Biotecnologia agrícola",
+          "Engenharia civil",
+          "Biotecnologia médica"
+        ],
+        answer: 0
+      },
+      {
+        question: "A biotecnologia verde está relacionada a:",
+        options: [
+          "Agricultura sustentável",
+          "Energia nuclear",
+          "Produção de medicamentos",
+          "Tecnologias de guerra"
+        ],
+        answer: 0
+      }
+    ];
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const nextBtn = document.getElementById("next-btn");
+    const resultContainer = document.getElementById("result-container");
+    const resultEl = document.getElementById("result");
+    const retryBtn = document.getElementById("retry-btn");
+
+    let currentQuestion = 0;
+    let score = 0;
+    let selectedOption = null;
+
+    function loadQuestion() {
+      const q = quizData[currentQuestion];
+      questionEl.textContent = q.question;
+      optionsEl.innerHTML = "";
+      q.options.forEach((option, index) => {
+        const button = document.createElement("button");
+        button.classList.add("option");
+        button.textContent = option;
+        button.onclick = () => selectOption(index);
+        optionsEl.appendChild(button);
+      });
+      nextBtn.style.display = "none";
+    }
+
+    function selectOption(index) {
+      selectedOption = index;
+      const buttons = optionsEl.querySelectorAll(".option");
+      buttons.forEach(btn => btn.disabled = true);
+      if (index === quizData[currentQuestion].answer) {
+        buttons[index].style.background = "#4caf50";
+        score++;
+      } else {
+        buttons[index].style.background = "#e53935";
+        buttons[quizData[currentQuestion].answer].style.background = "#4caf50";
+      }
+      nextBtn.style.display = "block";
+    }
+
+    nextBtn.onclick = () => {
+      currentQuestion++;
+      if (currentQuestion < quizData.length) {
+        loadQuestion();
+      } else {
+        showResult();
+      }
+    };
+
+    function showResult() {
+      document.getElementById("quiz").style.display = "none";
+      resultContainer.style.display = "block";
+      let message = score <= 5
+        ? "Você precisa revisar mais o conteúdo de Biotecnologia. Tente novamente e aprimore seu conhecimento!"
+        : "Parabéns! Você foi muito bem no quiz e demonstrou ótimo entendimento sobre Biotecnologia!";
+      resultEl.innerHTML = `<p>Sua pontuação: <strong>${score}/10</strong></p><p>${message}</p>`;
+    }
+
+    retryBtn.onclick = () => {
+      currentQuestion = 0;
+      score = 0;
+      selectedOption = null;
+      resultContainer.style.display = "none";
+      document.getElementById("quiz").style.display = "block";
+      loadQuestion();
+    };
+
+    loadQuestion();
+  </script>
+</body>
+</html>
