@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: "Poppins", sans-serif;
-      background: linear-gradient(135deg, #4caf50, #81c784);
+      background: #000; /* Fundo preto */
       color: #fff;
       margin: 0;
       padding: 0;
@@ -18,23 +18,25 @@
     }
 
     .container {
-      background-color: rgba(0, 0, 0, 0.8);
+      background-color: rgba(25, 25, 25, 0.9);
       padding: 30px;
       border-radius: 15px;
       width: 90%;
       max-width: 600px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
     }
 
     h1 {
       text-align: center;
       margin-bottom: 20px;
-      color: #ffeb3b;
+      color: #00ff7f;
+      text-shadow: 0 0 8px #00ff7f;
     }
 
     .question {
       font-size: 1.2em;
       margin-bottom: 15px;
+      color: #fff;
     }
 
     .options {
@@ -43,23 +45,25 @@
     }
 
     .option {
-      background: #388e3c;
+      background: #1b5e20;
       border: none;
       color: #fff;
       padding: 10px;
       margin: 6px 0;
       border-radius: 8px;
       cursor: pointer;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
       text-align: left;
+      font-size: 1em;
     }
 
     .option:hover {
-      background: #66bb6a;
+      background: #2e7d32;
+      transform: scale(1.03);
     }
 
     #next-btn, #retry-btn {
-      background: #ffeb3b;
+      background: #00ff7f;
       color: #000;
       border: none;
       padding: 10px 20px;
@@ -69,11 +73,13 @@
       margin-top: 20px;
       display: block;
       width: 100%;
-      transition: background 0.3s;
+      transition: background 0.3s, transform 0.3s;
+      font-weight: bold;
     }
 
     #next-btn:hover, #retry-btn:hover {
-      background: #fbc02d;
+      background: #00cc66;
+      transform: scale(1.05);
     }
 
     #result {
@@ -107,106 +113,26 @@
 
   <script>
     const quizData = [
-      {
-        question: "A biotecnologia é o uso de organismos vivos para:",
-        options: [
-          "Criar obras de arte",
-          "Produzir bens e serviços úteis",
-          "Estudar o clima",
-          "Fazer cálculos matemáticos"
-        ],
-        answer: 1
-      },
-      {
-        question: "O que são organismos transgênicos?",
-        options: [
-          "Organismos com DNA alterado por técnicas genéticas",
-          "Seres que mudam de cor",
-          "Plantas com mutações naturais",
-          "Animais híbridos"
-        ],
-        answer: 0
-      },
-      {
-        question: "Qual é o principal objetivo da engenharia genética?",
-        options: [
-          "Criar máquinas automatizadas",
-          "Modificar genes para obter características desejadas",
-          "Melhorar o solo agrícola",
-          "Aumentar o número de espécies"
-        ],
-        answer: 1
-      },
-      {
-        question: "A produção de insulina humana em bactérias é um exemplo de:",
-        options: [
-          "Terapia gênica",
-          "Biotecnologia moderna",
-          "Biotecnologia tradicional",
-          "Engenharia ambiental"
-        ],
-        answer: 1
-      },
-      {
-        question: "A fermentação é usada na produção de:",
-        options: [
-          "Vinagre e iogurte",
-          "Aço e vidro",
-          "Plásticos e borracha",
-          "Gasolina e diesel"
-        ],
-        answer: 0
-      },
-      {
-        question: "Qual é o combustível produzido a partir da cana-de-açúcar?",
-        options: [
-          "Etanol",
-          "Gasolina",
-          "Querosene",
-          "Diesel"
-        ],
-        answer: 0
-      },
-      {
-        question: "Vacinas são exemplos de aplicação da biotecnologia porque:",
-        options: [
-          "São feitas apenas com produtos químicos",
-          "Usam microrganismos ou partes deles para estimular imunidade",
-          "Têm apenas substâncias naturais",
-          "São feitas manualmente"
-        ],
-        answer: 1
-      },
-      {
-        question: "A terapia gênica busca:",
-        options: [
-          "Curar doenças alterando o DNA das células",
-          "Criar clones humanos",
-          "Melhorar o desempenho físico",
-          "Trocar órgãos geneticamente"
-        ],
-        answer: 0
-      },
-      {
-        question: "O uso de bactérias para tratar esgoto é um exemplo de:",
-        options: [
-          "Biotecnologia ambiental",
-          "Biotecnologia agrícola",
-          "Engenharia civil",
-          "Biotecnologia médica"
-        ],
-        answer: 0
-      },
-      {
-        question: "A biotecnologia verde está relacionada a:",
-        options: [
-          "Agricultura sustentável",
-          "Energia nuclear",
-          "Produção de medicamentos",
-          "Tecnologias de guerra"
-        ],
-        answer: 0
-      }
+      { question: "A biotecnologia é o uso de organismos vivos para:",
+        options: ["Criar obras de arte","Produzir bens e serviços úteis","Estudar o clima","Fazer cálculos matemáticos"], answer: 1 },
+      { question: "O que são organismos transgênicos?",
+        options: ["Organismos com DNA alterado por técnicas genéticas","Seres que mudam de cor","Plantas com mutações naturais","Animais híbridos"], answer: 0 },
+      { question: "Qual é o principal objetivo da engenharia genética?",
+        options: ["Criar máquinas automatizadas","Modificar genes para obter características desejadas","Melhorar o solo agrícola","Aumentar o número de espécies"], answer: 1 },
+      { question: "A produção de insulina humana em bactérias é um exemplo de:",
+        options: ["Terapia gênica","Biotecnologia moderna","Biotecnologia tradicional","Engenharia ambiental"], answer: 1 },
+      { question: "A fermentação é usada na produção de:",
+        options: ["Vinagre e iogurte","Aço e vidro","Plásticos e borracha","Gasolina e diesel"], answer: 0 },
+      { question: "Qual é o combustível produzido a partir da cana-de-açúcar?",
+        options: ["Etanol","Gasolina","Querosene","Diesel"], answer: 0 },
+      { question: "Vacinas são exemplos de aplicação da biotecnologia porque:",
+        options: ["São feitas apenas com produtos químicos","Usam microrganismos ou partes deles para estimular imunidade","Têm apenas substâncias naturais","São feitas manualmente"], answer: 1 },
+      { question: "A terapia gênica busca:",
+        options: ["Curar doenças alterando o DNA das células","Criar clones humanos","Melhorar o desempenho físico","Trocar órgãos geneticamente"], answer: 0 },
+      { question: "O uso de bactérias para tratar esgoto é um exemplo de:",
+        options: ["Biotecnologia ambiental","Biotecnologia agrícola","Engenharia civil","Biotecnologia médica"], answer: 0 },
+      { question: "A biotecnologia verde está relacionada a:",
+        options: ["Agricultura sustentável","Energia nuclear","Produção de medicamentos","Tecnologias de guerra"], answer: 0 }
     ];
 
     const questionEl = document.getElementById("question");
@@ -218,7 +144,6 @@
 
     let currentQuestion = 0;
     let score = 0;
-    let selectedOption = null;
 
     function loadQuestion() {
       const q = quizData[currentQuestion];
@@ -235,26 +160,23 @@
     }
 
     function selectOption(index) {
-      selectedOption = index;
       const buttons = optionsEl.querySelectorAll(".option");
       buttons.forEach(btn => btn.disabled = true);
+
       if (index === quizData[currentQuestion].answer) {
-        buttons[index].style.background = "#4caf50";
+        buttons[index].style.background = "#00cc66";
         score++;
       } else {
         buttons[index].style.background = "#e53935";
-        buttons[quizData[currentQuestion].answer].style.background = "#4caf50";
+        buttons[quizData[currentQuestion].answer].style.background = "#00cc66";
       }
       nextBtn.style.display = "block";
     }
 
     nextBtn.onclick = () => {
       currentQuestion++;
-      if (currentQuestion < quizData.length) {
-        loadQuestion();
-      } else {
-        showResult();
-      }
+      if (currentQuestion < quizData.length) loadQuestion();
+      else showResult();
     };
 
     function showResult() {
@@ -269,7 +191,6 @@
     retryBtn.onclick = () => {
       currentQuestion = 0;
       score = 0;
-      selectedOption = null;
       resultContainer.style.display = "none";
       document.getElementById("quiz").style.display = "block";
       loadQuestion();
@@ -279,3 +200,5 @@
   </script>
 </body>
 </html>
+
+
